@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DisputeShield Enterprise OS &bull; Autonomous Chargeback &amp; Dispute Defense Swarm</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230070BA%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>🛡️</text></svg>">
+  
+  <!-- AG Grid Community & Styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.1/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.1/styles/ag-theme-alpine.css">
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.1/dist/ag-grid-community.min.js"></script>
+
+  <!-- Marked.js for Legal Brief Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  
+  <!-- FontAwesome 6 Pro Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Institutional FinTech Design System -->
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body class="light-mode">
+
+  <!-- 1. TOP CONSOLE BAR (46px) -->
+  <header class="app-header">
+    <div class="brand-section">
+      <span class="brand-badge">DisputeShield</span>
+      <div class="brand-title-wrap">
+        <span class="brand-title">Enterprise OS</span>
+        <span class="brand-divider">/</span>
+        <span class="brand-sub">Autonomous Chargeback Defense Swarm</span>
+        <span class="live-beacon">
+          <span class="live-dot"></span>
+          <span>PAYPAL API v1: LIVE (12ms)</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Right Console Controls -->
+    <div class="header-actions">
+      <button class="btn-console" id="judge-mode-btn" onclick="toggleJudgeMode()" title="Toggle Statutory Explainability Layer (Hotkey: J)">
+        <i class="fa-solid fa-scale-balanced"></i> Judge Mode: <span id="judge-mode-state">OFF</span>
+      </button>
+
+      <button class="btn-console" onclick="openBenchmarkModal()" title="Run Reproducible 5-Vector Benchmark (Hotkey: B)">
+        <i class="fa-solid fa-flask" style="color:#38BDF8;"></i> 5-Vector Benchmark
+      </button>
+
+      <button class="btn-console" onclick="openWebhookModal()" title="Simulate Inbound Dispute Webhook (Hotkey: W)">
+        <i class="fa-solid fa-bolt" style="color:#FBBF24;"></i> Simulate Webhook
+      </button>
+
+      <button class="btn-console" onclick="exportLedgerCsv()" title="Export Dispute Ledger to CSV">
+        <i class="fa-solid fa-file-csv"></i> Export CSV
+      </button>
+
+      <button class="btn-console" id="theme-toggle-btn" onclick="toggleTheme()" title="Switch Light/Dark Theme">
+        <i class="fa-solid fa-circle-half-stroke"></i>
+      </button>
+
+      <button class="btn-console btn-primary" onclick="processAllDisputes()" title="Execute Automated Multi-Agent Defense for All Open Cases">
+        <i class="fa-solid fa-shield-halved"></i> Run Auto-Defense
+      </button>
+    </div>
+  </header>
+
+  <!-- 2. HIGH-DENSITY KPI STRIP -->
+  <section class="kpi-strip">
+    <div class="kpi-card kpi-accent">
+      <div class="kpi-label">
+        <span>Capital Protected</span>
+        <i class="fa-solid fa-vault"></i>
+      </div>
+      <div class="kpi-value-row">
+        <span class="kpi-value" id="kpi-protected-gmv">$4,988.00</span>
+        <span class="kpi-delta">+18.4% MoM</span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-success">
+      <div class="kpi-label">
+        <span>Empirical Win-Rate</span>
+        <i class="fa-solid fa-chart-line"></i>
+      </div>
+      <div class="kpi-value-row">
+        <span class="kpi-value" id="kpi-win-rate">88.4%</span>
+        <span class="kpi-delta" style="color:var(--text-muted); font-weight:normal;">n=5 Cases</span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-accent">
+      <div class="kpi-label">
+        <span>Visa CE 3.0 Qualified</span>
+        <i class="fa-solid fa-fingerprint"></i>
+      </div>
+      <div class="kpi-value-row">
+        <span class="kpi-value" id="kpi-ce3-count">3 Eligible</span>
+        <span class="kpi-delta">Mandatory Immunity</span>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-warning">
+      <div class="kpi-label">
+        <span>Dispute Fees Saved</span>
+        <i class="fa-solid fa-hand-holding-dollar"></i>
+      </div>
+      <div class="kpi-value-row">
+        <span class="kpi-value" id="kpi-fee-savings">$60.00</span>
+        <span class="kpi-delta">$15/claim waived</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">
+        <span>Avg Defense Latency</span>
+        <i class="fa-solid fa-bolt-lightning"></i>
+      </div>
+      <div class="kpi-value-row">
+        <span class="kpi-value" id="kpi-latency">320ms</span>
+        <span class="kpi-delta" style="color:var(--text-muted); font-weight:normal;">vs 8 days manual</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MAIN WORKSPACE WRAPPER -->
+  <div class="workspace-wrapper">
+
+    <!-- Left Ledger Panel -->
+    <main class="ledger-panel" id="ledger-panel">
+      <!-- Toolbar Filters & Quick Search -->
+      <div class="ledger-toolbar">
+        <div class="filter-group">
+          <button class="filter-btn active" onclick="setFilter('ALL')">All Claims (<span id="count-all">5</span>)</button>
+          <button class="filter-btn" onclick="setFilter('WAITING_FOR_SELLER_RESPONSE')">Action Needed (<span id="count-action">0</span>)</button>
+          <button class="filter-btn" onclick="setFilter('EVIDENCE_SUBMITTED')">Evidence Submitted (<span id="count-submitted">3</span>)</button>
+          <button class="filter-btn" onclick="setFilter('REQUIRES_MANUAL_REVIEW')">Needs Review (<span id="count-review">1</span>)</button>
+          <button class="filter-btn" onclick="setFilter('RESOLVED_BUYER_WON')">Goodwill Refund (<span id="count-refund">1</span>)</button>
+        </div>
+
+        <div class="search-command-wrap">
+          <i class="fa-solid fa-magnifying-glass" style="color:var(--text-muted); font-size:11px;"></i>
+          <input type="text" id="grid-search" placeholder="Search case ID, buyer name, IP..." oninput="onSearchChanged()" />
+          <span class="kbd-badge">/</span>
+        </div>
+      </div>
+
+      <!-- AG Grid Enterprise Table -->
+      <div id="disputeGrid" class="ag-theme-alpine grid-container"></div>
+    </main>
+
+    <!-- Right Sliding Investigation Drawer (Stripe Radar Workbench) -->
+    <aside class="investigation-drawer" id="investigation-drawer">
+      <!-- Drawer Header -->
+      <div class="drawer-header">
+        <div>
+          <div class="drawer-title-row">
+            <span class="brand-badge" style="background:#0F172A; font-size:10px;">DOSSIER</span>
+            <h3 id="drawer-dispute-title">Case Inspection</h3>
+          </div>
+          <div class="drawer-subtitle" id="drawer-dispute-subtitle">Select any dispute from the ledger to inspect evidence</div>
+        </div>
+        <button class="drawer-close-btn" onclick="closeDrawer()" title="Close Drawer (Esc)">&times;</button>
+      </div>
+
+      <!-- Confidence Policy Banner -->
+      <div class="drawer-policy-banner" id="drawer-policy-banner">
+        <!-- Injected via app.js -->
+      </div>
+
+      <!-- Drawer Navigation Tabs -->
+      <nav class="drawer-nav-tabs">
+        <button class="drawer-tab active" id="tab-btn-ce3" onclick="switchDrawerTab('ce3')">
+          <i class="fa-solid fa-fingerprint"></i> Visa CE 3.0 Diff
+        </button>
+        <button class="drawer-tab" id="tab-btn-pod" onclick="switchDrawerTab('pod')">
+          <i class="fa-solid fa-truck-fast"></i> Carrier Telemetry &amp; POD
+        </button>
+        <button class="drawer-tab" id="tab-btn-memo" onclick="switchDrawerTab('memo')">
+          <i class="fa-solid fa-scale-balanced"></i> Legal Rebuttal Brief
+        </button>
+        <button class="drawer-tab" id="tab-btn-trace" onclick="switchDrawerTab('trace')">
+          <i class="fa-solid fa-network-wired"></i> Swarm Trace
+        </button>
+      </nav>
+
+      <!-- Drawer Body Content -->
+      <div class="drawer-content" id="drawer-body-content">
+        <!-- Injected dynamically via app.js -->
+      </div>
+
+      <!-- Drawer Sticky Action Footer -->
+      <div class="drawer-footer">
+        <button class="btn-console" style="color:var(--text-secondary); background:var(--bg-surface-elevated); border:1px solid var(--border-subtle);" onclick="closeDrawer()">Close [Esc]</button>
+        <button class="btn-console btn-primary" id="drawer-submit-btn" onclick="submitActiveDispute()">
+          <i class="fa-solid fa-paper-plane"></i> Submit Rebuttal to PayPal API
+        </button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- 4. BOTTOM STATUS TICKER (26px) -->
+  <footer class="status-bar-footer">
+    <div class="status-left">
+      <span><i class="fa-solid fa-terminal" style="margin-right:4px;"></i> TELEMETRY:</span>
+      <span id="ticker-message" style="color:#E2E8F0;">Autonomous Swarm online. Listening to PayPal webhook stream (CUSTOMER.DISPUTE.CREATED)...</span>
+    </div>
+    <div class="status-right">
+      <span>STATUTES: VISA CORE RULE 10.4 &bull; PAYPAL SELLER PROTECTION &sect;11.3 &bull; UCC &sect;2-607</span>
+      <span>SHORTCUTS: <strong>[J]</strong> Judge &bull; <strong>[B]</strong> Bench &bull; <strong>[W]</strong> Webhook &bull; <strong>[Esc]</strong> Close</span>
+    </div>
+  </footer>
+
+  <!-- 5. BENCHMARK SUITE MODAL -->
+  <div id="benchmarkModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-weight:700; font-size:13px; font-family:var(--font-mono);">
+            <i class="fa-solid fa-flask" style="color:#0070BA; margin-right:6px;"></i> Canonical 5-Vector Adversarial FinTech Benchmark Suite
+          </h3>
+          <span style="font-size:11px; color:var(--text-muted);">Empirical verification proving decision accuracy, legal justification, and intentional fee waiver</span>
+        </div>
+        <button class="drawer-close-btn" onclick="closeBenchmarkModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="benchmark-body">
+        <!-- Rendered by app.js -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-console" style="color:var(--text-secondary); background:var(--bg-surface-elevated); border:1px solid var(--border-subtle);" onclick="closeBenchmarkModal()">Close</button>
+        <button class="btn-console btn-primary" onclick="runBenchmarkFromModal()">
+          <i class="fa-solid fa-rotate-right"></i> Re-Run Benchmark Suite
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. WEBHOOK SIMULATOR MODAL -->
+  <div id="webhookModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card" style="max-width:540px;">
+      <div class="modal-header">
+        <h3 style="font-weight:700; font-size:13px; font-family:var(--font-mono);">
+          <i class="fa-solid fa-bolt" style="color:#D97706; margin-right:6px;"></i> Simulate Inbound PayPal Webhook
+        </h3>
+        <button class="drawer-close-btn" onclick="closeWebhookModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
+          Injects a real <code>CUSTOMER.DISPUTE.CREATED</code> webhook payload directly into DisputeShield's autonomous swarm to trigger carrier telemetry ingestion, Visa CE 3.0 ledger correlation, and legal rebuttal synthesis in real time.
+        </p>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div>
+            <label style="font-size:10.5px; font-family:var(--font-mono); font-weight:700; color:var(--text-muted); text-transform:uppercase;">Dispute Vector Type</label>
+            <select id="wh-type" style="width:100%; padding:6px 8px; border-radius:3px; background:var(--bg-surface-elevated); color:var(--text-primary); border:1px solid var(--border-strong); font-family:inherit; margin-top:4px; font-size:12px;">
+              <option value="INR_POD">Item Not Received (Delivered with GPS & Recipient Signature)</option>
+              <option value="UNAUTHORIZED_CE3">Unauthorized Claim (Visa CE 3.0 Historical Match)</option>
+              <option value="LOST_IN_TRANSIT">Carrier Lost in Transit (Intentional Goodwill Refund & Fee Avoidance)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:10.5px; font-family:var(--font-mono); font-weight:700; color:var(--text-muted); text-transform:uppercase;">Disputed GMV ($ USD)</label>
+            <input type="number" id="wh-amount" value="850.00" style="width:100%; padding:6px 8px; border-radius:3px; background:var(--bg-surface-elevated); color:var(--text-primary); border:1px solid var(--border-strong); font-family:var(--font-mono); margin-top:4px; font-size:12px;" />
+          </div>
+          <div>
+            <label style="font-size:10.5px; font-family:var(--font-mono); font-weight:700; color:var(--text-muted); text-transform:uppercase;">Order Item Description</label>
+            <input type="text" id="wh-desc" value="Enterprise Server Storage Array NVMe 8TB" style="width:100%; padding:6px 8px; border-radius:3px; background:var(--bg-surface-elevated); color:var(--text-primary); border:1px solid var(--border-strong); font-family:inherit; margin-top:4px; font-size:12px;" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-console" style="color:var(--text-secondary); background:var(--bg-surface-elevated); border:1px solid var(--border-subtle);" onclick="closeWebhookModal()">Cancel</button>
+        <button class="btn-console btn-primary" onclick="sendSimulatedWebhook()">
+          <i class="fa-solid fa-satellite-dish"></i> Dispatch Webhook
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
