@@ -1,4 +1,4 @@
-# 🛡️ DisputeShield Enterprise OS
+﻿# 🛡️ DisputeShield Enterprise OS
 ### Autonomous Chargeback Defense & Evidence Orchestration Swarm
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -41,8 +41,8 @@ In digital commerce, global e-commerce merchants lose over **$117 Billion** annu
 3. **Visa/Mastercard Compelling Evidence 3.0 (CE 3.0) Engine**: Deterministically scans the merchant's historical ledger for $\ge 2$ prior settled undisputed orders matching the cardholder's IP, device fingerprint, or delivery address under **Visa Core Rule 10.4**.
 4. **LLM Legal Rebuttal Synthesizer**: Utilizes state-of-the-art reasoning models (**DeepSeek-V4.1-Flash** via **Nebius Token Factory**) to generate airtight legal briefs formatted with statutory citations, evidence tables, and **SHA-256 asset checksums**.
 5. **Confidence-Scored Human-in-the-Loop Guardrail**:
-   - $\ge 80\%$ Confidence $\rightarrow$ **Autonomous Straight-Through Submission** (`POST /v1/customer/disputes/{id}/provide-evidence` in 320ms).
-   - $< 80\%$ Confidence $\rightarrow$ Flags for 1-click merchant review with recommendations.
+   - $\ge 90\%$ Confidence $\rightarrow$ **Autonomous Straight-Through Submission** (`POST /v1/customer/disputes/{id}/provide-evidence` in 320ms).
+   - $< 90\%$ Confidence $\rightarrow$ Flags for 1-click merchant review with recommendations.
    - Confirmed Carrier Loss $\rightarrow$ Proactively issues accepted refund, completely waiving the $15.00 dispute administration penalty!
 6. **AG Grid Enterprise Command Center**: High-density institutional FinTech dispute ledger with custom confidence meters, CE 3.0 badges, markdown dossier viewers, and live webhook simulation.
 7. **Canonical 5-Vector Benchmark Suite**: Reproducible empirical proof of an **88.4%+ empirical win rate** across diverse fraud vectors.
@@ -64,8 +64,8 @@ flowchart TD
         
         Synthesizer --> Guardrail{"Confidence Scoring Policy"}
         
-        Guardrail -->|Confidence >= 80%| AutoSubmit["Straight-Through PayPal Disputes Gateway (320ms)"]
-        Guardrail -->|Confidence < 80%| HumanReview["AG Grid Merchant Investigation Drawer"]
+        Guardrail -->|Confidence >= 90%| AutoSubmit["Straight-Through PayPal Disputes Gateway (320ms)"]
+        Guardrail -->|Confidence < 90%| HumanReview["AG Grid Merchant Investigation Drawer"]
         Guardrail -->|Carrier Lost Package| AutoRefund["Goodwill Acceptance & $15 Fee Waiver"]
     end
     
@@ -147,3 +147,4 @@ tests/test_server_endpoints.py::test_api_benchmark PASSED                [100%]
 
 ## 📄 License
 This project is open-source software licensed under the **[MIT License](LICENSE)**.
+

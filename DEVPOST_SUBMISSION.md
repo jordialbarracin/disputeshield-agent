@@ -1,4 +1,4 @@
-# DisputeShield Enterprise OS
+﻿# DisputeShield Enterprise OS
 ### Autonomous Chargeback Defense & Evidence Orchestration Swarm
 
 > **Targeted Tracks:** 
@@ -39,7 +39,7 @@ Clicking any dispute opens a forensic workbench featuring 4 synchronized workben
 4. **Multi-Agent Execution Trace**: Nanosecond-level audit timeline tracking the entire lifecycle from inbound PayPal webhook ingestion to straight-through API transmission in 320ms.
 
 ### 3. Automated Capital & Fee Protection Guardrails
-- **Straight-Through Dispute Defense**: Cases with >80% confidence and verified CE 3.0 qualification are sealed and dispatched autonomously to PayPal's evidence submission endpoints.
+- **Straight-Through Dispute Defense**: Cases with >=90% confidence and verified CE 3.0 qualification are sealed and dispatched autonomously to PayPal's evidence submission endpoints.
 - **Fee Avoidance Engine**: For indisputably lost transit shipments (carrier tracking status: LOST_IN_TRANSIT), DisputeShield automatically accepts liability before the card network escalation deadline, avoiding the $15.00 dispute penalty fee and protecting merchant seller health metrics.
 
 ---
@@ -132,3 +132,4 @@ DisputeShield includes a complete reproducible test suite and a live simulation 
 ---
 
 *DisputeShield Enterprise OS — Institutional Capital Protection at Terminal Speed.*
+
